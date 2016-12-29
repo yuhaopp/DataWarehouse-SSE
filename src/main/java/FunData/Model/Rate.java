@@ -11,7 +11,7 @@ public class Rate {
     @Id
     @GeneratedValue
     @Column(nullable = false)
-    private int rateId;
+    private Long rateId;
 
     private int rateNum;
     private String rateName;
@@ -25,11 +25,11 @@ public class Rate {
         this.rateName = rateName;
     }
 
-    public int getRateId() {
+    public Long getRateId() {
         return rateId;
     }
 
-    public void setRateId(int rateId) {
+    public void setRateId(Long rateId) {
         this.rateId = rateId;
     }
 

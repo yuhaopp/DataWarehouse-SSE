@@ -11,14 +11,13 @@ public class Actor {
     @Id
     @Column(nullable = false)
     @GeneratedValue
-    private int actorId;
+    private Long actorId;
 
     private int starNum;
     private int actNum;
     private String actorName;
 
-    public Actor(int actorId, int starNum, int actNum, String actorName) {
-        this.actorId = actorId;
+    public Actor(int starNum, int actNum, String actorName) {
         this.starNum = starNum;
         this.actNum = actNum;
         this.actorName = actorName;
@@ -28,11 +27,11 @@ public class Actor {
         super();
     }
 
-    public int getActorId() {
+    public Long getActorId() {
         return actorId;
     }
 
-    public void setActorId(int actorId) {
+    public void setActorId(Long actorId) {
         this.actorId = actorId;
     }
 

@@ -11,7 +11,7 @@ public class Director {
     @Id
     @Column(nullable = false)
     @GeneratedValue
-    private int directorId;
+    private Long directorId;
 
     private int directNum;
     private String directName;
@@ -25,11 +25,11 @@ public class Director {
         super();
     }
 
-    public int getDirectorId() {
+    public Long getDirectorId() {
         return directorId;
     }
 
-    public void setDirectorId(int directorId) {
+    public void setDirectorId(Long directorId) {
         this.directorId = directorId;
     }
 

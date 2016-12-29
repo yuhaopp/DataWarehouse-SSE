@@ -11,7 +11,7 @@ public class Format {
     @Id
     @GeneratedValue
     @Column(nullable = false)
-    private int formatId;
+    private Long formatId;
 
     private int formatNum;
     private String formatName;
@@ -25,11 +25,11 @@ public class Format {
         this.formatName = formatName;
     }
 
-    public int getFormatId() {
+    public Long getFormatId() {
         return formatId;
     }
 
-    public void setFormatId(int formatId) {
+    public void setFormatId(Long formatId) {
         this.formatId = formatId;
     }
 

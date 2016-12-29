@@ -8,30 +8,31 @@ import java.io.Serializable;
  */
 @Embeddable
 public class MovieGenrePK implements Serializable {
-    private int movieId;
-    private int genreId;
+    private Long movieId;
+    private Long genreId;
 
-    public MovieGenrePK(int movieId, int genreId) {
+    public MovieGenrePK(Long movieId, Long genreId) {
         this.movieId = movieId;
         this.genreId = genreId;
     }
 
     public MovieGenrePK() {
+
     }
 
-    public int getMovieId() {
+    public Long getMovieId() {
         return movieId;
     }
 
-    public void setMovieId(int movieId) {
+    public void setMovieId(Long movieId) {
         this.movieId = movieId;
     }
 
-    public int getGenreId() {
+    public Long getGenreId() {
         return genreId;
     }
 
-    public void setGenreId(int genreId) {
+    public void setGenreId(Long genreId) {
         this.genreId = genreId;
     }
 
@@ -48,7 +49,7 @@ public class MovieGenrePK implements Serializable {
 
     @Override
     public int hashCode() {
-        String str = Integer.toString(this.movieId);
+        String str = Long.toString(this.movieId);
         return str.hashCode();
     }
 }

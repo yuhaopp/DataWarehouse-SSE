@@ -31,7 +31,8 @@ public class Time {
         super();
     }
 
-    public Time(int year, int month, int weekday, int quarter, int day, int aaa, int yQuarter, int yWeekday, int yMonth) {
+    public Time(Long timeId, int year, int month, int weekday, int quarter, int day, int yQuarter, int yWeekday, int yMonth) {
+        this.timeId = timeId;
         this.year = year;
         this.month = month;
         this.weekday = weekday;

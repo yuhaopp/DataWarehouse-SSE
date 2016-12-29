@@ -11,7 +11,7 @@ public class Review {
     @Id
     @GeneratedValue
     @Column(nullable = false)
-    private int reviewId;
+    private Long reviewId;
 
     private String movieASIN;
     private int userId;
@@ -27,11 +27,11 @@ public class Review {
         this.score = score;
     }
 
-    public int getReviewId() {
+    public Long getReviewId() {
         return reviewId;
     }
 
-    public void setReviewId(int reviewId) {
+    public void setReviewId(Long reviewId) {
         this.reviewId = reviewId;
     }
 

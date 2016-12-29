@@ -11,7 +11,7 @@ public class Studio {
     @Id
     @Column(nullable = false)
     @GeneratedValue
-    private int studioId;
+    private Long studioId;
 
     private int studioNum;
     private String studioName;
@@ -25,11 +25,11 @@ public class Studio {
         this.studioName = studioName;
     }
 
-    public int getStudioId() {
+    public Long getStudioId() {
         return studioId;
     }
 
-    public void setStudioId(int studioId) {
+    public void setStudioId(Long studioId) {
         this.studioId = studioId;
     }
 

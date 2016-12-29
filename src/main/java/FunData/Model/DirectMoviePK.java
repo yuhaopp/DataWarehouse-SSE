@@ -9,13 +9,14 @@ import java.io.Serializable;
 @Embeddable
 public class DirectMoviePK implements Serializable {
     private static final long serialVersionUID = -3304319243957837925L;
-    private int directorId;
-    private int movieId;
+    private Long directorId;
+    private Long movieId;
 
     public DirectMoviePK() {
+
     }
 
-    public DirectMoviePK(int directorId, int movieId) {
+    public DirectMoviePK(Long directorId, Long movieId) {
         this.directorId = directorId;
         this.movieId = movieId;
     }
@@ -24,19 +25,19 @@ public class DirectMoviePK implements Serializable {
         return serialVersionUID;
     }
 
-    public int getDirectorId() {
+    public Long getDirectorId() {
         return directorId;
     }
 
-    public void setDirectorId(int directorId) {
+    public void setDirectorId(Long directorId) {
         this.directorId = directorId;
     }
 
-    public int getMovieId() {
+    public Long getMovieId() {
         return movieId;
     }
 
-    public void setMovieId(int movieId) {
+    public void setMovieId(Long movieId) {
         this.movieId = movieId;
     }
 
@@ -53,7 +54,7 @@ public class DirectMoviePK implements Serializable {
 
     @Override
     public int hashCode() {
-        String str = Integer.toString(this.movieId);
+        String str = Long.toString(this.movieId);
         return str.hashCode();
     }
 }

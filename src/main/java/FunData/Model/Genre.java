@@ -11,7 +11,7 @@ public class Genre {
     @Id
     @Column(nullable = false)
     @GeneratedValue
-    private int genreId;
+    private Long genreId;
 
     private int genreNum;
     private String genreName;
@@ -25,11 +25,11 @@ public class Genre {
         this.genreName = genreName;
     }
 
-    public int getGenreId() {
+    public Long getGenreId() {
         return genreId;
     }
 
-    public void setGenreId(int genreId) {
+    public void setGenreId(Long genreId) {
         this.genreId = genreId;
     }
 
