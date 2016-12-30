@@ -4,25 +4,26 @@ import FunData.Model.Movie;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.logging.Handler;
 
 /**
- * Created by 禹祎凡 on 2016/12/30.
+ * Created by 禹祎凡 on 2016/12/31.
  */
-public class GenreSearchViewModel {
+public class Top50SearchViewModel {
     int count;
     float dbExecTime;
     float hiveExecTime;
     Hashtable<Integer,ArrayList<Movie>> yearMovie;
+    Hashtable<String,ArrayList<Movie>> genreMovie;
 
-    public GenreSearchViewModel() {
+    public Top50SearchViewModel() {
     }
 
-    public GenreSearchViewModel(int count, float dbExecTime, float hiveExecTime, Hashtable<Integer,ArrayList<Movie>> yearMovie) {
+    public Top50SearchViewModel(int count, float dbExecTime, float hiveExecTime, Hashtable<Integer,ArrayList<Movie>> yearMovie,Hashtable<String,ArrayList<Movie>> genreMovie) {
         this.count = count;
         this.dbExecTime = dbExecTime;
         this.hiveExecTime = hiveExecTime;
         this.yearMovie = yearMovie;
+        this.genreMovie = genreMovie;
     }
 
     public int getCount() {
@@ -57,5 +58,12 @@ public class GenreSearchViewModel {
         this.yearMovie = yearMovie;
     }
 
+    public Hashtable<String, ArrayList<Movie>> getGenreMovie() {
+        return genreMovie;
+    }
+
+    public void setGenreMovie(Hashtable<String,ArrayList<Movie>> genreMovie) {
+        this.genreMovie = genreMovie;
+    }
 
 }

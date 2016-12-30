@@ -24,9 +24,5 @@ public class GenreSearchController {
         return genreSearchService.GenreSearch(genre);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public GenreSearchViewModel GetTop50() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
-        return genreSearchService.GetTop50();
-    }
 
 }

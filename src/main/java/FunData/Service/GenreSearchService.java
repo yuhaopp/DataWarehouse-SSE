@@ -18,9 +18,5 @@ public class GenreSearchService {
         GenreSearchViewModel genreSearchViewModel = genreRepository.GenreSearch(genre);
         return genreSearchViewModel;
     }
-    public GenreSearchViewModel GetTop50() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
-        GenreRepository genreRepository = new GenreRepository();
-        GenreSearchViewModel genreSearchViewModel = genreRepository.GetTop50();
-        return genreSearchViewModel;
-    }
+
 }
