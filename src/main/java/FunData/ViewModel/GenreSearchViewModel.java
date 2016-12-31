@@ -3,8 +3,6 @@ package FunData.ViewModel;
 import FunData.Model.Movie;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.logging.Handler;
 
 /**
  * Created by 禹祎凡 on 2016/12/30.
@@ -13,16 +11,16 @@ public class GenreSearchViewModel {
     int count;
     float dbExecTime;
     float hiveExecTime;
-    Hashtable<Integer,ArrayList<Movie>> yearMovie;
+    ArrayList<Movie> movies;
 
     public GenreSearchViewModel() {
     }
 
-    public GenreSearchViewModel(int count, float dbExecTime, float hiveExecTime, Hashtable<Integer,ArrayList<Movie>> yearMovie) {
+    public GenreSearchViewModel(int count, float dbExecTime, float hiveExecTime, ArrayList<Movie> movies) {
         this.count = count;
         this.dbExecTime = dbExecTime;
         this.hiveExecTime = hiveExecTime;
-        this.yearMovie = yearMovie;
+        this.movies = movies;
     }
 
     public int getCount() {
@@ -49,12 +47,12 @@ public class GenreSearchViewModel {
         this.hiveExecTime = hiveExecTime;
     }
 
-    public Hashtable<Integer, ArrayList<Movie>> getMovies() {
-        return yearMovie;
+    public ArrayList<Movie> getMovies() {
+        return movies;
     }
 
-    public void setMovies(Hashtable<Integer,ArrayList<Movie>> yearMovie) {
-        this.yearMovie = yearMovie;
+    public void setMovies(ArrayList<Movie> movies) {
+        this.movies = movies;
     }
 
 

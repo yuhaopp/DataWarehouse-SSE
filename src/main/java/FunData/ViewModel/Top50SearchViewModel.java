@@ -11,17 +11,17 @@ import java.util.Hashtable;
 public class Top50SearchViewModel {
     int count;
     float dbExecTime;
-    float hiveExecTime;
-    Hashtable<Integer,ArrayList<Movie>> yearMovie;
-    Hashtable<String,ArrayList<Movie>> genreMovie;
+    ArrayList<Movie> movies;
+    Hashtable<Integer,Integer> yearMovie;
+    Hashtable<String,Integer> genreMovie;
 
     public Top50SearchViewModel() {
     }
 
-    public Top50SearchViewModel(int count, float dbExecTime, float hiveExecTime, Hashtable<Integer,ArrayList<Movie>> yearMovie,Hashtable<String,ArrayList<Movie>> genreMovie) {
+    public Top50SearchViewModel(int count, float dbExecTime, ArrayList<Movie> movies, Hashtable<Integer,Integer> yearMovie,Hashtable<String,Integer> genreMovie) {
         this.count = count;
         this.dbExecTime = dbExecTime;
-        this.hiveExecTime = hiveExecTime;
+        this.movies = movies;
         this.yearMovie = yearMovie;
         this.genreMovie = genreMovie;
     }
@@ -42,28 +42,27 @@ public class Top50SearchViewModel {
         this.dbExecTime = dbExecTime;
     }
 
-    public float getHiveExecTime() {
-        return hiveExecTime;
+    public ArrayList<Movie> getMovies() {
+        return movies;
     }
 
-    public void setHiveExecTime(float hiveExecTime) {
-        this.hiveExecTime = hiveExecTime;
+    public void setMovies(ArrayList<Movie> movies) {
+        this.movies = movies;
     }
 
-    public Hashtable<Integer, ArrayList<Movie>> getMovies() {
+    public Hashtable<Integer, Integer> getYearMovie() {
         return yearMovie;
     }
 
-    public void setMovies(Hashtable<Integer,ArrayList<Movie>> yearMovie) {
+    public void setYearMovie(Hashtable<Integer, Integer> yearMovie) {
         this.yearMovie = yearMovie;
     }
 
-    public Hashtable<String, ArrayList<Movie>> getGenreMovie() {
+    public Hashtable<String, Integer> getGenreMovie() {
         return genreMovie;
     }
 
-    public void setGenreMovie(Hashtable<String,ArrayList<Movie>> genreMovie) {
+    public void setGenreMovie(Hashtable<String, Integer> genreMovie) {
         this.genreMovie = genreMovie;
     }
-
 }

@@ -1,6 +1,6 @@
 package FunData.Repository;
 
-import FunData.Model.Movie;
+import FunData.ViewModel.MovieViewModel;
 import FunData.ViewModel.MultiplySearchViewModel;
 
 import java.sql.*;
@@ -23,7 +23,7 @@ public class MovieRepository {
         Statement statement1 = conn.createStatement();
         Statement statement2 = conn.createStatement();
         System.out.println("Success Connected!!!");
-        String sql = "select movie.title,movie.asin,movie.format,movie.score,movie.review_num from movie natural join format";
+        String sql = "select movie.title,movie.asin,format.format_name,movie.score,movie.review_num from movie natural join format";
         ArrayList<String> tableName = new ArrayList<String>();
         if (options.containsKey("genre"))
             tableName.add(" natural join movie_genre natural join genre");
@@ -115,18 +115,20 @@ public class MovieRepository {
             }
         }
 
-        String countSql = sql.replace("movie.title,movie.asin,movie.format,movie.score,movie.review_num", "count(*) number");
+        String countSql = sql.replace("movie.title,movie.asin,format.format_name,movie.score,movie.review_num", "count(*) number");
 
         ResultSet count = statement2.executeQuery(countSql);
         int number = 0;
         while (count.next())
             number = count.getInt("number");
 
+        sql += " order by score desc limit 50";
+
         Long startTime = System.currentTimeMillis();
         ResultSet resultSet = statement1.executeQuery(sql);
         Long endTime = System.currentTimeMillis();
 
-        ArrayList<Movie> movies = convertContent(resultSet);
+        ArrayList<MovieViewModel> movies = convertContent(resultSet);
         Long execTime = endTime - startTime;
         MultiplySearchViewModel multiplySearchViewModel = new MultiplySearchViewModel(number, execTime, 1, movies);
         statement1.close();
@@ -135,38 +137,36 @@ public class MovieRepository {
         return multiplySearchViewModel;
     }
 
-    public ArrayList<Movie> convertContent(ResultSet resultSet) throws SQLException {
-        ArrayList<Movie> movies = new ArrayList<>();
+    public ArrayList<MovieViewModel> convertContent(ResultSet resultSet) throws SQLException {
+        ArrayList<MovieViewModel> movies = new ArrayList<>();
         int count = 0;
         while (resultSet.next() && count < 50) {
             String title = resultSet.getString("title");
             String asin = resultSet.getString("asin");
-            String format = resultSet.getString("format");
             float score = resultSet.getFloat("score");
-            int reviewNum = resultSet.getInt("review_num");
-            Movie movie = new Movie(title, 0, 0, 0, reviewNum, 0, score, asin, format, "", "", "", "", "", "", "");
+            String format = resultSet.getString("format_name");
+            MovieViewModel movie = new MovieViewModel(title,asin,format,score);
             movies.add(movie);
             count++;
         }
         return movies;
     }
 
-    public ArrayList<Movie> GetOneMovie(String title) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
+    public ArrayList<MovieViewModel> GetOneMovie(String title) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
         Class.forName(driver).newInstance();
         Connection conn = DriverManager.getConnection(url + "?user=" + username + "&password=" + password + "&useUnicode=true&characterEncoding=utf-8");
         Statement statement = conn.createStatement();
         System.out.println("Success Connected!!!");
-        String sql = String.format("select movie.title,movie.asin,movie.format,movie.score,movie.review_num from movie natural join format where title = \"%s\"", title);
+        String sql = String.format("select movie.title,movie.asin,format.format_name,movie.score from movie natural join format where title = \"%s\"", title);
         ResultSet resultSet = statement.executeQuery(sql);
-        ArrayList<Movie> movies = new ArrayList<>();
-        Movie movie = new Movie();
+        ArrayList<MovieViewModel> movies = new ArrayList<>();
+        MovieViewModel movie;
         while (resultSet.next()) {
             String asin = resultSet.getString("asin");
-            String format = resultSet.getString("format");
             float score = resultSet.getFloat("score");
-            int reviewNum = resultSet.getInt("review_num");
+            String format = resultSet.getString("format_name");
 
-            movie = new Movie(title, 0, 0, 0, reviewNum, 0, score, asin, format, "", "", "", "", "", "", "");
+            movie = new MovieViewModel(title,asin,format,score);
             movies.add(movie);
         }
         statement.close();

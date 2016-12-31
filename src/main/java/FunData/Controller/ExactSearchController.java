@@ -1,7 +1,7 @@
 package FunData.Controller;
 
-import FunData.Model.Movie;
 import FunData.Service.ExactSearchService;
+import FunData.ViewModel.MovieViewModel;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +18,7 @@ public class ExactSearchController {
     ExactSearchService exactSearchService = new ExactSearchService();
 
     @RequestMapping(method = RequestMethod.GET)
-    public ArrayList<Movie> MultiplySearch(String title) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+    public ArrayList<MovieViewModel> MultiplySearch(String title) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         return exactSearchService.getOneMovie(title);
     }
 

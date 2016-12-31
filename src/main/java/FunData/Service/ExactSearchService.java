@@ -1,7 +1,7 @@
 package FunData.Service;
 
-import FunData.Model.Movie;
 import FunData.Repository.MovieRepository;
+import FunData.ViewModel.MovieViewModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 @Transactional
 @Service
 public class ExactSearchService {
-    public ArrayList<Movie> getOneMovie(String title) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+    public ArrayList<MovieViewModel> getOneMovie(String title) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         MovieRepository movieRepository = new MovieRepository();
         return movieRepository.GetOneMovie(title);
     }

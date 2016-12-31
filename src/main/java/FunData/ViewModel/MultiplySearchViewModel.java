@@ -1,7 +1,5 @@
 package FunData.ViewModel;
 
-import FunData.Model.Movie;
-
 import java.util.ArrayList;
 
 /**
@@ -11,12 +9,12 @@ public class MultiplySearchViewModel {
     int count;
     float dbExecTime;
     float hiveExecTime;
-    ArrayList<Movie> movies;
+    ArrayList<MovieViewModel> movies;
 
     public MultiplySearchViewModel() {
     }
 
-    public MultiplySearchViewModel(int count, float dbExecTime, float hiveExecTime, ArrayList<Movie> movies) {
+    public MultiplySearchViewModel(int count, float dbExecTime, float hiveExecTime, ArrayList<MovieViewModel> movies) {
         this.count = count;
         this.dbExecTime = dbExecTime;
         this.hiveExecTime = hiveExecTime;
@@ -47,12 +45,11 @@ public class MultiplySearchViewModel {
         this.hiveExecTime = hiveExecTime;
     }
 
-    public ArrayList<Movie> getMovies() {
+    public ArrayList<MovieViewModel> getMovies() {
         return movies;
     }
 
-    public void setMovies(ArrayList<Movie> movies) {
+    public void setMovies(ArrayList<MovieViewModel> movies) {
         this.movies = movies;
     }
-
 }

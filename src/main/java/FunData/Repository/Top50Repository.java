@@ -14,7 +14,7 @@ public class Top50Repository {
     String driver = "com.mysql.jdbc.Driver";
     String url = "jdbc:MySQL://localhost:3306/datawarehouse";
     String username = "root";
-    String password = "308121";
+    String password = "1234";
 
     public Top50SearchViewModel GetTop50() throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
         Class.forName(driver).newInstance();
@@ -22,15 +22,15 @@ public class Top50Repository {
         Statement statement = conn.createStatement();
         System.out.println("Success Connected!!!");
 
-        String sql = "SELECT movie.movie_id,movie.time_id,movie.title,movie.score,movie.review_num,movie.genres FROM movie ORDER BY movie.score DESC LIMIT 50";
+        String sql = "SELECT movie.asin,movie.movie_id,movie.time_id,movie.title,movie.score,movie.review_num FROM movie WHERE movie.movie_id <= 65059 and movie.movie_id >= 45912 ORDER BY movie.score DESC LIMIT 50";
         Long startTime = System.currentTimeMillis();
         ResultSet resultSet = statement.executeQuery(sql);
         Long endTime = System.currentTimeMillis();
 
         ArrayList<Movie> movies = convertContent(resultSet);
         Long execTime = endTime - startTime;
-        Hashtable<Integer,ArrayList<Movie>> yearMovie = new Hashtable<>();
-        Hashtable<String,ArrayList<Movie>> genreMovie = new Hashtable<>();
+        Hashtable<Integer,Integer> yearMovie = new Hashtable<>();
+        Hashtable<String,Integer> genreMovie = new Hashtable<>();
         for (int i = 0; i < movies.size(); i++) {
             Movie movie = movies.get(i);
             String s = movie.getTimeId()+"";
@@ -41,13 +41,12 @@ public class Top50Repository {
                 year = yearResult.getInt("year");
             }
             if (year!=0){
-                ArrayList<Movie> movies1 = yearMovie.get(year);
+                Integer movies1 = yearMovie.get(year);
                 if(movies1==null){
-                    movies1 = new ArrayList<>();
-                    movies1.add(movie);
+                    movies1 = new Integer(1);
                 }
                 else {
-                    movies1.add(movie);
+                    movies1++;
                     yearMovie.remove(year);
                 }
                 yearMovie.put(year,movies1);
@@ -60,19 +59,17 @@ public class Top50Repository {
                 genre = genreResult.getString("genre_name");
             }
             if (genre!=null){
-                ArrayList<Movie> movies2 = genreMovie.get(genre);
+                Integer movies2 = genreMovie.get(genre);
                 if(movies2==null){
-                    movies2 = new ArrayList<>();
-                    movies2.add(movie);
+                    movies2 = new Integer(1);
                 }
                 else {
-                    movies2.add(movie);
-                    movies2.remove(genre);
+                    movies2++;
                 }
                 genreMovie.put(genre,movies2);
             }
         }
-        Top50SearchViewModel genreSearchViewModel = new Top50SearchViewModel(50,execTime,1,yearMovie,genreMovie);
+        Top50SearchViewModel genreSearchViewModel = new Top50SearchViewModel(50,execTime,movies,yearMovie,genreMovie);
         statement.close();
         conn.close();
         return genreSearchViewModel;
@@ -83,10 +80,9 @@ public class Top50Repository {
         while (resultSet.next()) {
             String title = resultSet.getString("title");
             float score = resultSet.getFloat("score");
-            int reviewNum = resultSet.getInt("review_num");
             int time_id = resultSet.getInt("time_id");
-            String genres = resultSet.getString("genres");
-            Movie movie = new Movie(title, time_id, 0, 0, reviewNum, 0, score, "", "", "", "", "", "", "", genres, "");
+            String asin = resultSet.getString("asin");
+            Movie movie = new Movie(title,time_id,0,0,0,0,score,asin);
             movie.setMovieId(resultSet.getLong("movie_id"));
             movies.add(movie);
         }

@@ -13,7 +13,7 @@ public class StaffRepository {
     String driver = "com.mysql.jdbc.Driver";
     String url = "jdbc:MySQL://localhost:3306/datawarehouse";
     String username = "root";
-    String password = "308121";
+    String password = "1234";
 
     public StaffSearchViewModel GetStaff(String name, String type) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
         Class.forName(driver).newInstance();
