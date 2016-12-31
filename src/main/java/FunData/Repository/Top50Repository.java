@@ -22,7 +22,7 @@ public class Top50Repository {
         Statement statement = conn.createStatement();
         System.out.println("Success Connected!!!");
 
-        String sql = "SELECT movie.movie_id,movie.time_id,movie.title,movie.score,movie.review_num,movie.time,movie.genres FROM movie ORDER BY movie.score DESC LIMIT 50";
+        String sql = "SELECT movie.movie_id,movie.time_id,movie.title,movie.score,movie.review_num,movie.genres FROM movie ORDER BY movie.score DESC LIMIT 50";
         Long startTime = System.currentTimeMillis();
         ResultSet resultSet = statement.executeQuery(sql);
         Long endTime = System.currentTimeMillis();
@@ -85,9 +85,8 @@ public class Top50Repository {
             float score = resultSet.getFloat("score");
             int reviewNum = resultSet.getInt("review_num");
             int time_id = resultSet.getInt("time_id");
-            String time = resultSet.getString("time");
             String genres = resultSet.getString("genres");
-            Movie movie = new Movie(title, time_id, 0, 0, reviewNum, 0, score, "", "", "", "", "", "", time, genres, "");
+            Movie movie = new Movie(title, time_id, 0, 0, reviewNum, 0, score, "", "", "", "", "", "", "", genres, "");
             movie.setMovieId(resultSet.getLong("movie_id"));
             movies.add(movie);
         }

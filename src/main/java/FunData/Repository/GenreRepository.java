@@ -22,15 +22,15 @@ public class GenreRepository {
         Statement statement = conn.createStatement();
         System.out.println("Success Connected!!!");
 
-        String sql = "SELECT movie.movie_id,movie.title,movie.time_id,movie.score,movie.review_num,movie.genres,movie.time FROM movie NATURAL JOIN movie_genre NATURAL JOIN genre WHERE genre.genre_name = ";
+        String sql = "SELECT movie.movie_id,movie.title,movie.time_id,movie.score,movie.review_num,movie.genres FROM movie NATURAL JOIN movie_genre NATURAL JOIN genre WHERE genre.genre_name = ";
         sql+= String.format("\"%s\"",genre);
-        String countSql = sql.replace("movie.movie_id,movie.title,movie.time_id,movie.score,movie.review_num,movie.genres,movie.time","count(*) number");
+        String countSql = sql.replace("movie.movie_id,movie.title,movie.time_id,movie.score,movie.review_num,movie.genres","count(*) number");
         ResultSet count = statement.executeQuery(countSql);
         int number = 0;
         while (count.next())
             number = count.getInt("number");
 
-        String s = "SELECT movie.movie_id,movie.title,movie.time_id,movie.score,movie.review_num,movie.genres,movie.time,time.year FROM movie NATURAL JOIN movie_genre NATURAL JOIN genre NATURAL JOIN time WHERE genre.genre_name = ";
+        String s = "SELECT movie.movie_id,movie.title,movie.time_id,movie.score,movie.review_num,movie.genres,time.year FROM movie NATURAL JOIN movie_genre NATURAL JOIN genre NATURAL JOIN time WHERE genre.genre_name = ";
         s+= String.format("\"%s\"",genre);
         Long startTime = System.currentTimeMillis();
         ResultSet resultSet = statement.executeQuery(s);
@@ -52,10 +52,9 @@ public class GenreRepository {
             float score = resultSet.getFloat("score");
             int reviewNum = resultSet.getInt("review_num");
             int time_id = resultSet.getInt("time_id");
-            String time = resultSet.getString("time");
             String genres = resultSet.getString("genres");
             int year = resultSet.getInt("year");
-            movie = new Movie(title, time_id, 0, 0, reviewNum, 0, score, "", "", "", "", "", "", time, genres, "");
+            movie = new Movie(title, time_id, 0, 0, reviewNum, 0, score, "", "", "", "", "", "", "", genres, "");
             ArrayList<Movie> movies = yearMovie.get(year);
             if(yearMovie.get(year)==null){
                 movies = new ArrayList<>();
