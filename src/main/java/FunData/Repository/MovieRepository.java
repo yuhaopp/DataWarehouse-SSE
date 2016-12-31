@@ -23,7 +23,7 @@ public class MovieRepository {
         Statement statement1 = conn.createStatement();
         Statement statement2 = conn.createStatement();
         System.out.println("Success Connected!!!");
-        String sql = "select movie.movie_id,movie.title,movie.asin,movie.format,movie.genres,movie.rate,movie.score,movie.review_num from movie natural join format";
+        String sql = "select movie.title,movie.asin,movie.format,movie.score,movie.review_num from movie natural join format";
         ArrayList<String> tableName = new ArrayList<String>();
         if (options.containsKey("genre"))
             tableName.add(" natural join movie_genre natural join genre");
@@ -31,6 +31,8 @@ public class MovieRepository {
             tableName.add(" natural join studio");
         if (options.containsKey("rate"))
             tableName.add(" natural join rate");
+        if (options.containsKey("format"))
+            tableName.add("");
 
         for (int i = 0; i < options.size(); i++) {
             sql += tableName.get(i);
@@ -48,18 +50,21 @@ public class MovieRepository {
                     sql += String.format(" genre_name = \"%s\"", options.get("genre"));
                 else
                     sql += String.format(" and genre_name = \"%s\"", options.get("genre"));
+                conditionNum++;
             }
             if (options.containsKey("format")) {
                 if (conditionNum == 1)
                     sql += String.format(" format_name = \"%s\"", options.get("format"));
                 else
                     sql += String.format(" and format_name = \"%s\"", options.get("format"));
+                conditionNum++;
             }
             if (options.containsKey("studio")) {
                 if (conditionNum == 1)
                     sql += String.format(" studio_name = \"%s\"", options.get("studio"));
                 else
                     sql += String.format(" and studio_name = \"%s\"", options.get("studio"));
+                conditionNum++;
 
             }
             if (options.containsKey("rate")) {
@@ -67,44 +72,50 @@ public class MovieRepository {
                     sql += String.format(" rate_name = \"%s\"", options.get("rate"));
                 else
                     sql += String.format(" and rate_name = \"%s\"", options.get("rate"));
+                conditionNum++;
             }
         }
 
         if (times.size() > 0) {
             conditionNum++;
-            if(times.containsKey("year")) {
-                if(conditionNum==1)
-                    sql+=String.format(" year = \"%s\",",times.get("year"));
+            if (times.containsKey("year")) {
+                if (conditionNum == 1)
+                    sql += String.format(" year = %d", times.get("year"));
                 else
-                    sql+=String.format(" and year = \"%s\",",times.get("year"));
+                    sql += String.format(" and year = %d", times.get("year"));
+                conditionNum++;
             }
-            if(times.containsKey("quarter")){
-                if(conditionNum==1)
-                    sql+=String.format(" quarter = \"%s\"",times.get("quarter"));
+            if (times.containsKey("quarter")) {
+                if (conditionNum == 1)
+                    sql += String.format(" quarter = %d", times.get("quarter"));
                 else
-                    sql+=String.format(" and quarter = \"%s\"",times.get("quarter"));
+                    sql += String.format(" and quarter = %d", times.get("quarter"));
+                conditionNum++;
             }
-            if(times.containsKey("month")){
-                if(conditionNum==1)
-                    sql+=String.format(" month = \"%s\"",times.get("month"));
+            if (times.containsKey("month")) {
+                if (conditionNum == 1)
+                    sql += String.format(" month = %d", times.get("month"));
                 else
-                    sql+=String.format(" and month = \"%s\"",times.get("month"));
+                    sql += String.format(" and month = %d", times.get("month"));
+                conditionNum++;
             }
-            if(times.containsKey("weekday")){
-                if(conditionNum==1)
-                    sql+=String.format(" weekday = \"%s\"",times.get("weekday"));
+            if (times.containsKey("weekday")) {
+                if (conditionNum == 1)
+                    sql += String.format(" weekday = %d", times.get("weekday"));
                 else
-                    sql+=String.format(" and weekday = \"%s\"",times.get("weekday"));
+                    sql += String.format(" and weekday = %d", times.get("weekday"));
+                conditionNum++;
             }
-            if(times.containsKey("day")){
-                if(conditionNum==1)
-                    sql+=String.format(" day = \"%s\"",times.get("day"));
+            if (times.containsKey("day")) {
+                if (conditionNum == 1)
+                    sql += String.format(" day = %d", times.get("day"));
                 else
-                    sql+=String.format(" and day = \"%s\"",times.get("day"));
+                    sql += String.format(" and day = %d", times.get("day"));
+                conditionNum++;
             }
         }
 
-        String countSql = sql.replace("movie.movie_id,movie.title,movie.asin,movie.format,movie.genres,movie.rate,movie.score,movie.review_num", "count(*) number");
+        String countSql = sql.replace("movie.title,movie.asin,movie.format,movie.score,movie.review_num", "count(*) number");
 
         ResultSet count = statement2.executeQuery(countSql);
         int number = 0;
@@ -126,16 +137,16 @@ public class MovieRepository {
 
     public ArrayList<Movie> convertContent(ResultSet resultSet) throws SQLException {
         ArrayList<Movie> movies = new ArrayList<>();
-        while (resultSet.next()) {
+        int count = 0;
+        while (resultSet.next() && count < 50) {
             String title = resultSet.getString("title");
             String asin = resultSet.getString("asin");
             String format = resultSet.getString("format");
-            String genres = resultSet.getString("genres");
-            String rate = resultSet.getString("rate");
             float score = resultSet.getFloat("score");
             int reviewNum = resultSet.getInt("review_num");
-            Movie movie = new Movie(title, 0, 0, 0, reviewNum, 0, score, asin, format, "", "", "", "", "", genres, rate);
+            Movie movie = new Movie(title, 0, 0, 0, reviewNum, 0, score, asin, format, "", "", "", "", "", "", "");
             movies.add(movie);
+            count++;
         }
         return movies;
     }
@@ -145,24 +156,17 @@ public class MovieRepository {
         Connection conn = DriverManager.getConnection(url + "?user=" + username + "&password=" + password + "&useUnicode=true&characterEncoding=utf-8");
         Statement statement = conn.createStatement();
         System.out.println("Success Connected!!!");
-        String sql = String.format("select * from movie where title = \"%s\"", title);
+        String sql = String.format("select movie.title,movie.asin,movie.format,movie.score,movie.review_num from movie natural join format where title = \"%s\"", title);
         ResultSet resultSet = statement.executeQuery(sql);
         ArrayList<Movie> movies = new ArrayList<>();
         Movie movie = new Movie();
         while (resultSet.next()) {
             String asin = resultSet.getString("asin");
             String format = resultSet.getString("format");
-            String genres = resultSet.getString("genres");
-            String rate = resultSet.getString("rate");
-            String actor = resultSet.getString("actor");
-            String director = resultSet.getString("director");
-            String star = resultSet.getString("star");
             float score = resultSet.getFloat("score");
             int reviewNum = resultSet.getInt("review_num");
-            String studio = resultSet.getString("studio");
-            String time = resultSet.getString("time");
 
-            movie = new Movie(title, 0, 0, 0, reviewNum, 0, score, asin, format, studio, actor, star, director, time, genres, rate);
+            movie = new Movie(title, 0, 0, 0, reviewNum, 0, score, asin, format, "", "", "", "", "", "", "");
             movies.add(movie);
         }
         statement.close();

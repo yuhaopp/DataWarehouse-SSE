@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLException;
-import java.util.IllegalFormatException;
 
 /**
  * Created by 禹祎凡 on 2016/12/30.
@@ -23,6 +22,4 @@ public class GenreSearchController {
     public GenreSearchViewModel GenreSearch(String genre) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         return genreSearchService.GenreSearch(genre);
     }
-
-
 }
