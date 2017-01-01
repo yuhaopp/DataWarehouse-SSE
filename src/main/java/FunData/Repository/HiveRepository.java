@@ -8,12 +8,12 @@ import java.util.ArrayList;
  */
 public class HiveRepository {
     private static final String driverName = "org.apache.hive.jdbc.HiveDriver";
-    private static final String connection = "jdbc:hive2://192.168.31.100:10000/myfirstdb";
+    private static final String connection = "jdbc:hive2://192.168.31.100:10000/default";
     private static final String userName = "hive";
     private static final String password = "hive";
 
 
-    public static void main(String[] args) throws SQLException {
+    public Long HiveTime(String string) throws SQLException {
         // write your code here
 //        System.out.println(queryName("Dad"));
 //        System.out.println(queryDate("1993", "2", "10"));
@@ -27,14 +27,14 @@ public class HiveRepository {
             System.exit(1);
         }
         Connection con = DriverManager.getConnection(connection, userName, password);
-        String sql = "CREATE TABLE `first_table` (\n" +
-                "  `id` INT NOT NULL,\n" +
-                "  `name` VARCHAR(45) NULL,\n" +
-                "  PRIMARY KEY (`id`));\n";
+        System.out.println("connection s");
+        String sql = string;
+        Long startTime = System.currentTimeMillis();
         PreparedStatement ps = con.prepareStatement(sql);
         ResultSet res = ps.executeQuery();
-        System.out.println(res);
+        Long endTime = System.currentTimeMillis();
         release(con,ps,res);
+        return endTime-startTime;
     }
 
     public static long queryMovieStyle(String style) {

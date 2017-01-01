@@ -128,9 +128,13 @@ public class MovieRepository {
         ResultSet resultSet = statement1.executeQuery(sql);
         Long endTime = System.currentTimeMillis();
 
+        sql = convertHql(sql);
+        HiveRepository hiveRepository = new HiveRepository();
+        Long hiveTime = hiveRepository.HiveTime(sql);
+
         ArrayList<MovieViewModel> movies = convertContent(resultSet);
         Long execTime = endTime - startTime;
-        MultiplySearchViewModel multiplySearchViewModel = new MultiplySearchViewModel(number, execTime, 1, movies);
+        MultiplySearchViewModel multiplySearchViewModel = new MultiplySearchViewModel(number, execTime, hiveTime, movies);
         statement1.close();
         statement2.close();
         conn.close();
@@ -172,5 +176,36 @@ public class MovieRepository {
         statement.close();
         conn.close();
         return movies;
+    }
+
+    public String convertHql(String sql) {
+        String hql;
+        String[] strings = sql.split(" order by ");
+        String string = strings[0];
+        String[] strings1 = string.split(" from ");
+        hql = strings1[0];
+        String string1 = strings1[1];
+        String[] strings2 = string1.split(" where");
+        String string2 = strings2[0];
+        String[] strings3 = string2.split(" natural join ");
+        hql+=" from movie join format on movie.format_id=format.format_id";
+        for (int i=2; i<strings3.length;i++){
+            if(strings3[i].equals("movie_genre")){
+                hql+=" join movie_genre on movie.movie_id=movie_genre.movie_id join genre on movie_genre.genre_id=genre.genre_id";
+                i++;
+            }
+            else if(strings3[i].equals("studio")){
+                hql+=" join studio on movie.studio_id=studio.studio_id";
+            }
+            else if(strings3[i].equals("rate")){
+                hql+=" join rate on movie.rate_id=rate.rate_id";
+            }
+            else if(strings3[i].equals("time")){
+                hql+=" join time on movie.time_id=time.time_id";
+            }
+        }
+        hql+=" where";
+        hql+=strings2[1];
+        return hql;
     }
 }
